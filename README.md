@@ -26,7 +26,8 @@
 ---
 | Title | Description | Commit |
 | ----- | ----------- | ------ |
-|  |  |  |
+| Coffees Controller | Create the coffees Controller, create function to handle an incomming GET request to /coffees |  |
+| Dynamic route params | Create a function to handel an incoming GET request with dynamic parameters to /coffees/:id |  |
 
 
 ## Part I
@@ -35,13 +36,28 @@
 	Controller are responsible for handling HTTP requests, and return an appropiate response.
 	The controllers use decorators which can also specity a specific controller for a given route, and for each method (GET, POST; etc).
 ```ts
-	@Controller('coffees') // the decorator can have an argument which will generate a route map
-	export class CoffeesController {
-	@Get() // the decorator can take an argument which along whith it's controller route, will generate also a nested route map
-		findAll(): string {
-			return ("This will return all coffees");
-		}
+@Controller('coffees') // the decorator can have an argument which will generate a route map
+export class CoffeesController {
+@Get() // the decorator can take an argument which along whith it's controller route, will generate also a nested route map
+	findAll(): string {
+		return ("This will return all coffees");
 	}
+}
+```
+### Controller Route Parameters (dynamic routes)
+	Sometimes you have to handle requests with a dynamic route parameter. Let's say for example we want to have an index, which will be defined with a number in our route.
+	For example:
+	/coffees/1 OR /coffees/22
+	In this example, we want the same function request handler for two different routes. This can be archieved with decorators.
+```ts
+@Controller('coffees') ...
+export class Coffee...
+...
+@Get(':id') // the decorator can also take a parameter with a semicolon indicating that it is a dynamic parameter passed to the route
+	findOne(@Param() params) { // import { Param } from @nestjs/common;
+		return `This returns #${params.id} index`; // The name you give in the decorator after the colon is going to be available through the params
+	}
+}
 ```
 ## Description
 
